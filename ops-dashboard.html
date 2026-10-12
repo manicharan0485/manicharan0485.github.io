@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Interactive infrastructure operations dashboard by Manicharan Ravi (sample data).">
+<meta name="author" content="Manicharan Ravi">
+<meta property="og:title" content="Manicharan Ravi">
+<meta property="og:description" content="Interactive infrastructure operations dashboard by Manicharan Ravi (sample data).">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%233446d4'/%3E%3Ctext x='32' y='42' font-family='Arial,sans-serif' font-size='28' font-weight='700' fill='white' text-anchor='middle'%3EMR%3C/text%3E%3C/svg%3E">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Infrastructure Ops Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: ops console — summary strip, then fleet table beside an alert feed, then backup / storage / certificate panels. */
+:root {
+  color-scheme: light;
+  --bg: #ffffff; --surface: #ffffff; --surface-2: #eceef5; --line: #dcdfea;
+  --fg: #151929; --muted: #5b6178; --faint: #8a8fa6;
+  --accent: #3446d4; --accent-soft: #e4e8fd;
+  --ok: #1d8656; --ok-soft: #dcf1e6; --warn: #a76400; --warn-soft: #fbecd2; --crit: #c42f3a; --crit-soft: #fadfe1;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Geist", "Segoe UI", system-ui, sans-serif;
+  --mono: "Geist Mono", ui-monospace, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 400 14px/1.45 var(--body); }
+.wrap { max-width: 1320px; margin: 0 auto; padding-inline: 20px; padding-block: 20px 48px; display: grid; gap: 18px; }
+h1, h2 { font-family: var(--display); font-weight: 700; margin: 0; text-wrap: balance; }
+h2 { font-size: 15px; font-weight: 500; letter-spacing: .01em; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.label { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 500; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* header */
+header.top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 14px 24px; }
+.brand { display: flex; gap: 14px; align-items: center; }
+.mark { width: 38px; height: 38px; border-radius: 9px; background: var(--accent); display: grid; place-items: center; flex: none; }
+.mark svg { width: 22px; height: 22px; }
+.mark rect { fill: var(--surface); }
+h1 { font-size: 26px; line-height: 1; letter-spacing: -.01em; }
+.sub { color: var(--muted); font-size: 13px; margin-top: 4px; }
+.sample { display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); font-weight: 500; margin-left: 6px; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.seg { display: inline-flex; background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 2px; }
+.seg button { border: 0; background: none; padding: 5px 11px; border-radius: 6px; cursor: pointer; color: var(--muted); font-weight: 500; font-size: 13px; }
+.seg button:hover { color: var(--fg); }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--fg); box-shadow: 0 1px 2px rgb(0 0 0 / .08); }
+.clock { color: var(--muted); font-size: 12px; }
+
+/* KPIs */
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; }
+.kpi .val { font-family: var(--display); font-size: 32px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.kpi .val small { font-size: 15px; color: var(--muted); font-weight: 500; margin-left: 2px; }
+.kpi .note { font-size: 12px; color: var(--muted); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.meter { height: 5px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+.meter i { display: block; height: 100%; border-radius: 3px; }
+.stack { display: flex; height: 5px; border-radius: 3px; overflow: hidden; gap: 2px; }
+.stack i { display: block; height: 100%; }
+
+/* panels */
+.grid-main { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 18px; align-items: start; }
+.grid-low { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; min-width: 0; }
+.panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 14px 16px 10px; flex-wrap: wrap; }
+.panel-head .label { text-transform: none; letter-spacing: 0; font-size: 12px; }
+.panel-body { padding: 0 16px 16px; }
+
+/* table */
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 720px; }
+th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 500; padding: 8px 10px; border-block: 1px solid var(--line); background: var(--surface-2); white-space: nowrap; }
+th:first-child, td:first-child { padding-left: 16px; }
+td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; white-space: nowrap; }
+tbody tr { cursor: pointer; }
+tbody tr:hover td { background: var(--surface-2); }
+tbody tr[aria-selected="true"] td { background: var(--accent-soft); }
+tbody tr:last-child td { border-bottom: 0; }
+.host { font-family: var(--mono); font-weight: 500; font-size: 13px; }
+.role { color: var(--muted); font-size: 12px; }
+.pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; padding: 2px 8px 2px 7px; border-radius: 99px; }
+.pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.pill.ok { color: var(--ok); background: var(--ok-soft); }
+.pill.warn { color: var(--warn); background: var(--warn-soft); }
+.pill.crit { color: var(--crit); background: var(--crit-soft); }
+.bar { display: flex; align-items: center; gap: 8px; }
+.bar .meter { width: 54px; }
+.bar span { font-family: var(--mono); font-size: 12px; width: 32px; text-align: right; }
+.spark .area { fill: var(--accent); opacity: .12; }
+.spark .line { fill: none; stroke: var(--accent); stroke-width: 1.5; stroke-linejoin: round; }
+.spark .dot { fill: var(--accent); }
+.spark.hot .area { fill: var(--warn); } .spark.hot .line { stroke: var(--warn); } .spark.hot .dot { fill: var(--warn); }
+.muted { color: var(--muted); }
+
+/* detail */
+.detail { border-top: 1px solid var(--line); padding: 16px; display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 20px; }
+.detail h3 { font-family: var(--mono); font-size: 15px; margin: 0 0 2px; font-weight: 500; }
+.chart text { fill: var(--muted); font-family: var(--mono); font-size: 10px; }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .thr { stroke: var(--warn); stroke-dasharray: 3 3; stroke-width: 1; }
+.chart .cpu { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
+.chart .cpu-area { fill: var(--accent); opacity: .1; }
+.chart .mem { fill: none; stroke: var(--faint); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.chart .end { fill: var(--accent); stroke: var(--surface); stroke-width: 2; }
+.legend { display: flex; gap: 14px; font-size: 12px; color: var(--muted); margin-top: 4px; }
+.legend i { display: inline-block; width: 14px; height: 2px; vertical-align: middle; margin-right: 5px; background: var(--accent); }
+.legend i.m { background: var(--faint); }
+dl.facts { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0; font-size: 13px; }
+dl.facts dt { color: var(--muted); }
+dl.facts dd { margin: 0; font-family: var(--mono); font-size: 12.5px; min-width: 0; overflow-wrap: anywhere; }
+
+/* alerts */
+.alerts { list-style: none; margin: 0; padding: 0 0 6px; }
+.alerts li { display: grid; grid-template-columns: 3px minmax(0, 1fr); gap: 12px; padding: 10px 16px; border-top: 1px solid var(--line); }
+.alerts .stripe { border-radius: 2px; }
+.alerts .stripe.crit { background: var(--crit); } .alerts .stripe.warn { background: var(--warn); } .alerts .stripe.info { background: var(--accent); }
+.alerts b { font-weight: 600; display: block; font-size: 13px; }
+.alerts p { margin: 2px 0 0; color: var(--muted); font-size: 12.5px; }
+.alerts .meta { font-family: var(--mono); font-size: 11px; color: var(--faint); margin-top: 3px; }
+.empty { padding: 18px 16px; color: var(--muted); }
+
+/* backup heatmap */
+.heat { display: grid; grid-template-columns: max-content repeat(14, minmax(12px, 1fr)); gap: 3px; align-items: center; }
+.heat .name { font-family: var(--mono); font-size: 11.5px; color: var(--muted); padding-right: 8px; white-space: nowrap; }
+.heat .cell { aspect-ratio: 1; border-radius: 3px; max-width: 100%; }
+.heat .day { font-family: var(--mono); font-size: 10px; color: var(--faint); text-align: center; }
+.c-ok { background: var(--ok); opacity: .85; } .c-warn { background: var(--warn); } .c-fail { background: var(--crit); } .c-none { background: var(--surface-2); }
+.keyrow { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-top: 12px; }
+.keyrow i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+
+/* storage */
+.ds { display: grid; gap: 14px; }
+.ds-row { display: grid; gap: 5px; }
+.ds-top { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; }
+.ds-top .mono { font-size: 12px; color: var(--muted); }
+.cap { position: relative; height: 8px; background: var(--surface-2); border-radius: 4px; }
+.cap i { position: absolute; inset: 0 auto 0 0; border-radius: 4px; }
+.cap .t { position: absolute; top: -3px; bottom: -3px; width: 1.5px; background: var(--fg); opacity: .35; }
+
+/* certs */
+.certs { list-style: none; margin: 0; padding: 0; display: grid; }
+.certs li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); }
+.certs li:first-child { border-top: 0; padding-top: 0; }
+.certs .cn { font-family: var(--mono); font-size: 12.5px; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.certs .iss { font-size: 11.5px; color: var(--muted); }
+
+footer { color: var(--faint); font-size: 12px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+@media (max-width: 1100px) { .grid-main { grid-template-columns: minmax(0, 1fr); } .grid-low { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .grid-low > :first-child { grid-column: 1 / -1; } }
+@media (max-width: 760px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .grid-low { grid-template-columns: minmax(0, 1fr); } .detail { grid-template-columns: minmax(0, 1fr); } .wrap { padding-inline: 16px; } }
+@media (max-width: 520px) { .heat { grid-template-columns: max-content repeat(14, minmax(8px, 1fr)); gap: 2px; } .heat .day:nth-child(even) { visibility: hidden; } }
+@media (prefers-reduced-motion: no-preference) { .meter i, .cap i { transition: width .4s ease; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="mark" aria-hidden="true"><svg viewBox="0 0 22 22"><rect x="3" y="4" width="16" height="3.4" rx="1"/><rect x="3" y="9.3" width="16" height="3.4" rx="1"/><rect x="3" y="14.6" width="9" height="3.4" rx="1"/></svg></div>
+      <div>
+        <h1>Ops Dashboard</h1>
+        <div class="sub">Infrastructure status · 3 sites <span class="sample">Sample data</span></div>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Site" id="siteSeg">
+        <button id="site-all" data-site="ALL" aria-pressed="true">All sites</button>
+        <button id="site-aac" data-site="AAC" aria-pressed="false">Aachen</button>
+        <button id="site-cgn" data-site="CGN" aria-pressed="false">Köln</button>
+        <button id="site-dus" data-site="DUS" aria-pressed="false">Düsseldorf</button>
+      </div>
+      <div class="seg" role="group" aria-label="Time range" id="rangeSeg">
+        <button id="range-24h" data-range="24h" aria-pressed="true">24 h</button>
+        <button id="range-7d" data-range="7d" aria-pressed="false">7 d</button>
+      </div>
+      <span class="clock mono">Mo 12.10.2026 · 09:40 MESZ</span>
+    </div>
+  </header>
+
+  <section class="kpis" id="kpis" aria-label="Summary"></section>
+
+  <div class="grid-main">
+    <section class="panel">
+      <div class="panel-head"><h2>Fleet</h2><span class="label" id="fleetCount"></span></div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Host</th><th>Status</th><th id="cpuHead">CPU · 24 h</th><th>Memory</th><th>Disk</th><th>Uptime</th><th>Patches</th><th>Backup</th></tr></thead>
+          <tbody id="fleet"></tbody>
+        </table>
+      </div>
+      <div class="detail" id="detail"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>Open alerts</h2><span class="label" id="alertCount"></span></div>
+      <ul class="alerts" id="alerts"></ul>
+    </section>
+  </div>
+
+  <div class="grid-low">
+    <section class="panel">
+      <div class="panel-head"><h2>Datensicherung · last 14 nights</h2><span class="label">Nightly jobs, 22:00–04:00</span></div>
+      <div class="panel-body">
+        <div class="heat" id="heat"></div>
+        <div class="keyrow"><span><i class="c-ok"></i>Succeeded</span><span><i class="c-warn"></i>Warning</span><span><i class="c-fail"></i>Failed</span></div>
+      </div>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><h2>Storage capacity</h2><span class="label">Line marks 80 % threshold</span></div>
+      <div class="panel-body ds" id="ds"></div>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><h2>TLS certificates</h2><span class="label">Sorted by expiry</span></div>
+      <div class="panel-body"><ul class="certs" id="certs"></ul></div>
+    </section>
+  </div>
+
+  <footer><span>Built with vanilla HTML, CSS and JavaScript. All hosts, figures and events are fictional sample data.</span><span class="mono">Prometheus scrape interval 30 s</span></footer>
+</div>
+
+<script>
+(() => {
+  function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  const hash = s => [...s].reduce((h, c) => Math.imul(h ^ c.charCodeAt(0), 16777619), 2166136261);
+
+  const SITES = { AAC: "Aachen", CGN: "Köln", DUS: "Düsseldorf" };
+  const servers = [
+    { id: "AAC-DC01", role: "Domain controller", os: "Windows Server 2022", ip: "10.10.0.10", cpu: 14, mem: 41, disk: 38, up: 23, patch: 0, backup: "ok" },
+    { id: "AAC-FS01", role: "File server", os: "Windows Server 2019", ip: "10.10.0.21", cpu: 22, mem: 58, disk: 93, up: 61, patch: 0, backup: "fail" },
+    { id: "AAC-HV01", role: "Hyper-V host", os: "Windows Server 2022 Datacenter", ip: "10.10.1.5", cpu: 47, mem: 72, disk: 64, up: 23, patch: 0, backup: "ok" },
+    { id: "AAC-SQL01", role: "SQL Server 2019", os: "Windows Server 2019", ip: "10.10.0.30", cpu: 35, mem: 79, disk: 71, up: 23, patch: 0, backup: "ok" },
+    { id: "AAC-TS01", role: "Terminal server (RDS)", os: "Windows Server 2022", ip: "10.10.0.40", cpu: 52, mem: 77, disk: 55, up: 41, patch: 3, backup: "ok" },
+    { id: "CGN-DC02", role: "Domain controller", os: "Windows Server 2022", ip: "10.20.0.10", cpu: 11, mem: 38, disk: 35, up: 23, patch: 0, backup: "ok" },
+    { id: "CGN-ESX01", role: "vSphere host", os: "ESXi 8.0 U3", ip: "10.20.1.11", cpu: 58, mem: 79, disk: 66, up: 112, patch: 1, backup: "ok" },
+    { id: "CGN-ESX02", role: "vSphere host", os: "ESXi 8.0 U3", ip: "10.20.1.12", cpu: 44, mem: 70, disk: 62, up: 112, patch: 0, backup: "ok" },
+    { id: "CGN-K8S-N1", role: "Kubernetes worker", os: "Ubuntu 24.04 LTS", ip: "10.20.4.21", cpu: 61, mem: 68, disk: 49, up: 9, patch: 0, backup: "ok" },
+    { id: "CGN-K8S-N2", role: "Kubernetes worker", os: "Ubuntu 24.04 LTS", ip: "10.20.4.22", cpu: 87, mem: 74, disk: 52, up: 9, patch: 0, backup: "ok" },
+    { id: "DUS-FW01", role: "Firewall · site-to-site VPN", os: "OPNsense 25.7", ip: "10.30.0.1", cpu: 12, mem: 29, disk: 21, up: 74, patch: 0, backup: "ok" },
+    { id: "DUS-MON01", role: "Prometheus + Grafana", os: "Debian 12", ip: "10.30.0.50", cpu: 27, mem: 61, disk: 58, up: 74, patch: 0, backup: "ok" },
+    { id: "DUS-FS02", role: "File server", os: "Windows Server 2022", ip: "10.30.0.21", cpu: 18, mem: 52, disk: 84, up: 23, patch: 0, backup: "warn" },
+    { id: "DUS-BK01", role: "Backup repository", os: "Windows Server 2022", ip: "10.30.0.60", cpu: 31, mem: 46, disk: 76, up: 23, patch: 0, backup: "ok" },
+  ].map(s => {
+    s.site = s.id.slice(0, 3);
+    s.status = (s.disk >= 90 || s.backup === "fail") ? "crit" : (s.disk >= 80 || s.cpu >= 80 || s.patch > 0 || s.backup === "warn") ? "warn" : "ok";
+    return s;
+  });
+
+  const alerts = [
+    { sev: "crit", host: "AAC-FS01", title: "Volume D: at 93 %", text: "1.86 of 2.00 TB used. Growth of ~14 GB/day projects full in 10 days.", ago: "since 06:12" },
+    { sev: "crit", host: "AAC-FS01", title: "Backup failed two nights running", text: "VSS snapshot timed out on D:. Last good restore point is from 09.10.", ago: "since 02:48" },
+    { sev: "warn", host: "CGN-K8S-N2", title: "CPU above 85 % for 3 h", text: "Pod reporting-worker-7f9c is not respecting its limits. N1 has headroom.", ago: "since 06:31" },
+    { sev: "warn", host: "AAC-TS01", title: "3 updates waiting for reboot", text: "2026-10 cumulative update installed. Reboot window: Wed 22:00.", ago: "since Fr 23:05" },
+    { sev: "warn", host: "DUS-FS02", title: "Volume E: at 84 %", text: "Above the 80 % threshold. Archive share holds 410 GB older than 3 years.", ago: "since Sa 14:20" },
+    { sev: "warn", host: "DUS-FS02", title: "Backup completed with warnings", text: "4 files skipped because they were locked by a user session.", ago: "since 03:17" },
+    { sev: "warn", host: "CGN-ESX01", title: "ESXi patch available", text: "ESXi 8.0 U3e. Host can be evacuated to CGN-ESX02 via vMotion.", ago: "since Do 10:00" },
+    { sev: "info", host: "DUS-FW01", title: "Certificate renews in 12 days", text: "vpn.example.com, auto-renew via ACME is configured.", ago: "since Mo 08:00" },
+  ];
+
+  const nights = Array.from({ length: 14 }, (_, i) => { const d = new Date(2026, 9, 12 - 13 + i); return d.getDate(); });
+  const backupRows = servers.filter(s => s.role !== "Firewall · site-to-site VPN").map(s => {
+    const r = rng(hash(s.id));
+    const cells = nights.map((_, i) => { const x = r(); return x < 0.04 ? "fail" : x < 0.10 ? "warn" : "ok"; });
+    if (s.backup === "fail") { cells[12] = "fail"; cells[13] = "fail"; }
+    else if (s.backup === "warn") cells[13] = "warn";
+    else cells[13] = "ok";
+    return { site: s.site, name: s.id, cells };
+  });
+
+  const datastores = [
+    { site: "AAC", name: "AAC-HV01 · CSV1", used: 3.1, total: 4 },
+    { site: "AAC", name: "AAC-FS01 · D:", used: 1.86, total: 2 },
+    { site: "CGN", name: "CGN vSAN cluster", used: 8.9, total: 12 },
+    { site: "CGN", name: "CGN NFS datastore", used: 3.2, total: 6 },
+    { site: "DUS", name: "DUS-FS02 · E:", used: 1.68, total: 2 },
+    { site: "DUS", name: "DUS-BK01 · repository", used: 15.2, total: 20 },
+  ];
+
+  const certs = [
+    { site: "DUS", cn: "vpn.example.com", iss: "Let's Encrypt R11", days: 12 },
+    { site: "AAC", cn: "rds.example.com", iss: "Internal root CA", days: 27 },
+    { site: "AAC", cn: "mail.example.com", iss: "Sectigo RSA DV", days: 64 },
+    { site: "CGN", cn: "vcenter.cgn.internal", iss: "VMCA", days: 141 },
+    { site: "DUS", cn: "grafana.example.com", iss: "Let's Encrypt R11", days: 73 },
+    { site: "CGN", cn: "*.k8s.example.com", iss: "Let's Encrypt R10", days: 58 },
+  ];
+
+  const state = { site: "ALL", range: "24h", selected: "AAC-FS01" };
+  const inSite = x => state.site === "ALL" || x.site === state.site;
+  const sevColor = v => v >= 90 ? "var(--crit)" : v >= 80 ? "var(--warn)" : "var(--accent)";
+  const statusText = { ok: "Healthy", warn: "Warning", crit: "Critical" };
+  const $ = id => document.getElementById(id);
+
+  function series(s, key, n) {
+    const r = rng(hash(s.id + key + state.range));
+    const base = key === "cpu" ? s.cpu : s.mem;
+    const amp = key === "cpu" ? Math.min(22, base * .45) : 4;
+    let v = base, out = [];
+    for (let i = 0; i < n; i++) {
+      const daily = state.range === "24h" ? Math.sin((i / n) * Math.PI * 2 - 1.2) : Math.sin((i / 6) * Math.PI * 2);
+      v += (r() - .5) * amp * .5; v += (base - v) * .25;
+      out.push(Math.max(2, Math.min(99, v + daily * amp * .5)));
+    }
+    out[n - 1] = base;
+    return out;
+  }
+  const N = () => state.range === "24h" ? 48 : 42;
+
+  function spark(vals, hot) {
+    const w = 92, h = 26, max = 100, step = w / (vals.length - 1);
+    const pts = vals.map((v, i) => [i * step, h - 2 - (v / max) * (h - 4)]);
+    const d = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join("");
+    const last = pts[pts.length - 1];
+    return `<svg class="spark${hot ? " hot" : ""}" width="${w + 4}" height="${h}" viewBox="0 0 ${w + 4} ${h}" aria-hidden="true"><path class="area" d="${d}L${w} ${h}L0 ${h}Z"/><path class="line" d="${d}"/><circle class="dot" cx="${last[0]}" cy="${last[1]}" r="2.4"/></svg>`;
+  }
+  const meter = v => `<div class="bar"><div class="meter"><i style="width:${v}%;background:${sevColor(v)}"></i></div><span>${v}%</span></div>`;
+
+  function renderKpis(list) {
+    const counts = { ok: 0, warn: 0, crit: 0 }; list.forEach(s => counts[s.status]++);
+    const rows = backupRows.filter(inSite);
+    const last7 = rows.flatMap(r => r.cells.slice(7)); const okRuns = last7.filter(c => c !== "fail").length;
+    const backupPct = last7.length ? (okRuns / last7.length * 100) : 100;
+    const patched = list.filter(s => s.patch === 0).length;
+    const patchPct = list.length ? patched / list.length * 100 : 100;
+    const al = alerts.filter(a => inSite({ site: a.host.slice(0, 3) }));
+    const crit = al.filter(a => a.sev === "crit").length, warn = al.filter(a => a.sev === "warn").length;
+    const total = list.length || 1;
+    $("kpis").innerHTML = `
+      <div class="kpi"><span class="label">Hosts healthy</span><div class="val">${counts.ok}<small>/ ${list.length}</small></div>
+        <div class="stack" aria-hidden="true"><i style="flex:${counts.ok};background:var(--ok)"></i><i style="flex:${counts.warn};background:var(--warn)"></i><i style="flex:${counts.crit};background:var(--crit)"></i></div>
+        <div class="note">${counts.warn} warning · ${counts.crit} critical</div></div>
+      <div class="kpi"><span class="label">Backup success · 7 nights</span><div class="val">${backupPct.toFixed(1)}<small>%</small></div>
+        <div class="meter"><i style="width:${backupPct}%;background:${backupPct >= 97 ? "var(--ok)" : "var(--warn)"}"></i></div>
+        <div class="note">${last7.length - okRuns} failed of ${last7.length} runs</div></div>
+      <div class="kpi"><span class="label">Patch compliance</span><div class="val">${Math.round(patchPct)}<small>%</small></div>
+        <div class="meter"><i style="width:${patchPct}%;background:${patchPct >= 95 ? "var(--ok)" : "var(--warn)"}"></i></div>
+        <div class="note">Baseline 2026-10 Patch Tuesday · ${list.length - patched} pending</div></div>
+      <div class="kpi"><span class="label">Open alerts</span><div class="val">${al.length}</div>
+        <div class="stack" aria-hidden="true"><i style="flex:${crit};background:var(--crit)"></i><i style="flex:${warn};background:var(--warn)"></i><i style="flex:${al.length - crit - warn};background:var(--accent)"></i></div>
+        <div class="note">${crit} critical · ${warn} warning · ${al.length - crit - warn} info</div></div>`;
+  }
+
+  function renderFleet(list) {
+    const order = { crit: 0, warn: 1, ok: 2 };
+    list = [...list].sort((a, b) => order[a.status] - order[b.status] || a.id.localeCompare(b.id));
+    $("fleetCount").textContent = `${list.length} hosts · ${state.site === "ALL" ? "3 sites" : SITES[state.site]}`;
+    $("cpuHead").textContent = `CPU · ${state.range === "24h" ? "24 h" : "7 d"}`;
+    $("fleet").innerHTML = list.map(s => `
+      <tr data-id="${s.id}" tabindex="0" aria-selected="${s.id === state.selected}">
+        <td><div class="host">${s.id}</div><div class="role">${s.role}</div></td>
+        <td><span class="pill ${s.status}">${statusText[s.status]}</span></td>
+        <td><div class="bar">${spark(series(s, "cpu", N()), s.cpu >= 80)}<span>${s.cpu}%</span></div></td>
+        <td>${meter(s.mem)}</td>
+        <td>${meter(s.disk)}</td>
+        <td class="mono">${s.up} d</td>
+        <td>${s.patch ? `<span class="pill warn">${s.patch} pending</span>` : `<span class="muted">Current</span>`}</td>
+        <td>${s.backup === "ok" ? `<span class="muted mono">03:${String(Math.abs(hash(s.id)) % 50 + 5).padStart(2, "0")}</span>` : `<span class="pill ${s.backup === "fail" ? "crit" : "warn"}">${s.backup === "fail" ? "Failed" : "Warnings"}</span>`}</td>
+      </tr>`).join("");
+  }
+
+  function renderDetail(list) {
+    let s = list.find(x => x.id === state.selected) || list[0];
+    if (!s) { $("detail").innerHTML = ""; return; }
+    state.selected = s.id;
+    const n = N(), cpu = series(s, "cpu", n), mem = series(s, "mem", n);
+    const W = 640, H = 190, L = 34, R = 10, T = 10, B = 24, iw = W - L - R, ih = H - T - B;
+    const x = i => L + i / (n - 1) * iw, y = v => T + ih - v / 100 * ih;
+    const path = arr => arr.map((v, i) => (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1)).join("");
+    const grid = [0, 25, 50, 75, 100].map(v => `<line class="grid" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text x="${L - 6}" y="${y(v) + 3}" text-anchor="end">${v}</text>`).join("");
+    const ticks = state.range === "24h"
+      ? [["10:00", 0], ["16:00", 12], ["22:00", 24], ["04:00", 36], ["09:40", 47]]
+      : [["Di", 0], ["Do", 12], ["Sa", 24], ["Mo", 36], ["jetzt", 41]];
+    const xt = ticks.map(([t, i]) => `<text x="${x(i)}" y="${H - 6}" text-anchor="${i === 0 ? "start" : i >= n - 1 ? "end" : "middle"}">${t}</text>`).join("");
+    const cpuPath = path(cpu);
+    const events = alerts.filter(a => a.host === s.id);
+    $("detail").innerHTML = `
+      <div style="min-width:0">
+        <h3>${s.id}</h3><div class="role">${s.role} · ${SITES[s.site]}</div>
+        <svg class="chart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="CPU and memory for ${s.id}" style="margin-top:10px;max-width:100%">
+          ${grid}<line class="thr" x1="${L}" x2="${W - R}" y1="${y(80)}" y2="${y(80)}"/>
+          <path class="cpu-area" d="${cpuPath}L${x(n - 1)} ${y(0)}L${x(0)} ${y(0)}Z"/>
+          <path class="mem" d="${path(mem)}"/><path class="cpu" d="${cpuPath}"/>
+          <circle class="end" cx="${x(n - 1)}" cy="${y(cpu[n - 1])}" r="4"/>${xt}
+        </svg>
+        <div class="legend"><span><i></i>CPU %</span><span><i class="m"></i>Memory %</span><span>Dashed line: 80 % alert threshold</span></div>
+      </div>
+      <div>
+        <dl class="facts">
+          <dt>Status</dt><dd><span class="pill ${s.status}">${statusText[s.status]}</span></dd>
+          <dt>OS</dt><dd>${s.os}</dd>
+          <dt>Address</dt><dd>${s.ip}</dd>
+          <dt>Uptime</dt><dd>${s.up} days</dd>
+          <dt>Disk</dt><dd>${s.disk} % used</dd>
+          <dt>Open alerts</dt><dd>${events.length ? events.map(e => e.title).join("<br>") : "None"}</dd>
+        </dl>
+      </div>`;
+  }
+
+  function renderAlerts() {
+    const al = alerts.filter(a => inSite({ site: a.host.slice(0, 3) }));
+    $("alertCount").textContent = al.length ? `${al.length} open` : "";
+    $("alerts").innerHTML = al.length ? al.map(a => `
+      <li><span class="stripe ${a.sev}"></span><div><b>${a.title}</b><p>${a.text}</p><div class="meta">${a.host} · ${a.ago}</div></div></li>`).join("")
+      : `<li class="empty" style="display:block">No open alerts for this site.</li>`;
+  }
+
+  function renderHeat() {
+    const rows = backupRows.filter(inSite);
+    $("heat").innerHTML = `<span></span>${nights.map(d => `<span class="day">${d}</span>`).join("")}` +
+      rows.map(r => `<span class="name">${r.name}</span>${r.cells.map((c, i) => `<span class="cell c-${c}" title="${r.name} · ${nights[i]}.${i < 11 ? "09" : "10"}: ${c === "ok" ? "succeeded" : c === "warn" ? "warning" : "failed"}"></span>`).join("")}`).join("");
+  }
+
+  function renderDs() {
+    $("ds").innerHTML = datastores.filter(inSite).map(d => {
+      const p = d.used / d.total * 100;
+      return `<div class="ds-row"><div class="ds-top"><span>${d.name}</span><span class="mono">${d.used.toFixed(2)} / ${d.total} TB</span></div>
+        <div class="cap" role="img" aria-label="${Math.round(p)} percent used"><i style="width:${p}%;background:${sevColor(p)}"></i><span class="t" style="left:80%"></span></div></div>`;
+    }).join("");
+  }
+
+  function renderCerts() {
+    $("certs").innerHTML = certs.filter(inSite).sort((a, b) => a.days - b.days).map(c => {
+      const cls = c.days <= 14 ? "crit" : c.days <= 30 ? "warn" : "ok";
+      return `<li><div style="min-width:0"><div class="cn">${c.cn}</div><div class="iss">${c.iss}</div></div><span class="pill ${cls} mono">${c.days} d</span></li>`;
+    }).join("");
+  }
+
+  function render() {
+    const list = servers.filter(inSite);
+    renderKpis(list); renderFleet(list); renderDetail(list); renderAlerts(); renderHeat(); renderDs(); renderCerts();
+    document.querySelectorAll("#fleet tr").forEach(tr => tr.setAttribute("aria-selected", tr.dataset.id === state.selected));
+  }
+
+  function bindSeg(id, key) {
+    $(id).addEventListener("click", e => {
+      const b = e.target.closest("button"); if (!b) return;
+      state[key] = b.dataset[key === "site" ? "site" : "range"];
+      $(id).querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+      render();
+    });
+  }
+  bindSeg("siteSeg", "site"); bindSeg("rangeSeg", "range");
+  const pick = tr => { if (!tr) return; state.selected = tr.dataset.id; render(); };
+  $("fleet").addEventListener("click", e => pick(e.target.closest("tr")));
+  $("fleet").addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(e.target.closest("tr")); } });
+  render();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Manicharan Ravi, IT Specialist in Mainz: system administration, Microsoft 365, networking, backup and cloud (AWS, Azure).">
+<meta name="author" content="Manicharan Ravi">
+<meta property="og:title" content="Manicharan Ravi">
+<meta property="og:description" content="Manicharan Ravi, IT Specialist in Mainz: system administration, Microsoft 365, networking, backup and cloud (AWS, Azure).">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%233446d4'/%3E%3Ctext x='32' y='42' font-family='Arial,sans-serif' font-size='28' font-weight='700' fill='white' text-anchor='middle'%3EMR%3C/text%3E%3C/svg%3E">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Manicharan Ravi IT Specialist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout (IT specialist edition): single editorial column with a results strip under the hero; the hero pairs the portrait with name and thesis, the featured project pairs its story with a miniature of the dashboard. */
+:root {
+  color-scheme: light;
+  --bg: #ffffff; --surface: #ffffff; --surface-2: #eceef5; --line: #d9dce8;
+  --fg: #141828; --muted: #5a6077; --accent: #3446d4; --accent-soft: #e4e8fd;
+  --ok: #1d8656; --warn: #a76400; --crit: #c42f3a;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Geist", "Segoe UI", system-ui, sans-serif;
+  --mono: "Geist Mono", ui-monospace, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 400 16px/1.6 var(--body); }
+.wrap { max-width: 1080px; margin: 0 auto; padding-inline: 24px; padding-block: 28px 64px; display: grid; gap: 88px; }
+h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; }
+p { margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+nav.top { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; font-size: 14px; }
+nav.top .who { font-weight: 600; }
+nav.top ul { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; }
+nav.top a { color: var(--muted); text-decoration: none; }
+nav.top a:hover { color: var(--fg); }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 56px; align-items: center; margin-top: -40px; }
+.portrait { margin: 0; position: relative; max-width: 100%; }
+.portrait::before { content: ""; position: absolute; inset: 22px -18px -18px 22px; background: var(--accent); border-radius: 22px; }
+.portrait img { position: relative; display: block; width: 100%; aspect-ratio: 4 / 5; max-width: 100%; height: auto; object-fit: cover; object-position: 52% 18%; border-radius: 22px; }
+.portrait figcaption { position: absolute; left: 14px; bottom: 14px; right: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+.badge { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 99px; background: var(--surface); color: var(--fg); box-shadow: 0 6px 18px -8px rgb(0 0 0 / .45); }
+.hero h1 { font-size: clamp(46px, 7.4vw, 96px); line-height: .9; font-weight: 800; letter-spacing: -.035em; margin-top: 14px; }
+.hero .thesis { font-family: var(--display); font-size: clamp(22px, 2.6vw, 30px); line-height: 1.2; font-weight: 600; margin-top: 22px; max-width: 22em; text-wrap: balance; }
+.hero .thesis em { font-style: normal; color: var(--accent); }
+.ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.ctas .cta { margin-top: 0; }
+.cta.ghost { background: transparent; color: var(--fg); border: 1.5px solid var(--fg); }
+.cta.ghost:hover { background: var(--fg); color: var(--bg); }
+.work-intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; margin-bottom: 40px; }
+.work-intro header { margin-bottom: 0; }
+@media (max-width: 860px) { .work-intro { grid-template-columns: minmax(0, 1fr); } .portrait { max-width: 380px; } .portrait::before { inset: 14px -10px -10px 14px; } }
+.hero .lede { font-size: 18px; color: var(--muted); max-width: 34em; margin-top: 22px; }
+.hero .who-line { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; }
+.hero .who-line span { display: inline-flex; align-items: center; gap: 7px; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); }
+.cta { display: inline-flex; align-items: center; gap: 10px; margin-top: 30px; background: var(--fg); color: var(--bg); text-decoration: none; font-weight: 500; padding: 12px 18px; border-radius: 8px; font-size: 15px; }
+.cta:hover { background: var(--accent); color: var(--surface); }
+.cta svg { width: 16px; height: 16px; }
+.cta path { stroke: currentColor; fill: none; stroke-width: 1.8; }
+
+/* miniature */
+.mini { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 12px; box-shadow: 0 30px 60px -30px rgb(20 24 60 / .35); transform: rotate(1.2deg); font-size: 11px; max-width: 100%; }
+.mini-head { display: flex; justify-content: space-between; align-items: center; }
+.mini-head b { font-family: var(--display); font-size: 16px; }
+.mini-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.mini-kpis div { border: 1px solid var(--line); border-radius: 6px; padding: 7px; display: grid; gap: 4px; }
+.mini-kpis strong { font-family: var(--display); font-size: 18px; line-height: 1; }
+.mini-kpis span { color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: .06em; }
+.track { height: 3px; border-radius: 2px; background: var(--surface-2); overflow: hidden; display: flex; gap: 1px; }
+.track i { display: block; height: 100%; }
+.mini-rows { display: grid; }
+.mini-row { display: grid; grid-template-columns: 74px 54px minmax(0, 1fr) 34px; gap: 8px; align-items: center; padding: 6px 0; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 10.5px; }
+.chip { font-family: var(--body); font-size: 9.5px; font-weight: 500; padding: 1px 6px; border-radius: 99px; justify-self: start; }
+.chip.crit { color: var(--crit); background: color-mix(in srgb, var(--crit) 14%, transparent); }
+.chip.warn { color: var(--warn); background: color-mix(in srgb, var(--warn) 16%, transparent); }
+.chip.ok { color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, transparent); }
+.mini svg { width: 100%; height: 18px; }
+.mini .sl { fill: none; stroke: var(--accent); stroke-width: 1.4; }
+.mini .sl.hot { stroke: var(--warn); }
+.mini-heat { display: grid; grid-template-columns: repeat(14, 1fr); gap: 2px; }
+.mini-heat i { aspect-ratio: 1; border-radius: 2px; background: var(--ok); opacity: .8; }
+.mini-heat i.f { background: var(--crit); opacity: 1; } .mini-heat i.w { background: var(--warn); opacity: 1; }
+
+/* sections */
+section header { display: grid; gap: 10px; margin-bottom: 32px; max-width: 40em; }
+section h2 { font-size: clamp(28px, 3.6vw, 40px); font-weight: 600; letter-spacing: -.015em; line-height: 1.08; }
+section header p { color: var(--muted); }
+
+.case { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.decision { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; display: grid; gap: 10px; align-content: start; }
+.decision h3 { font-size: 19px; font-weight: 600; }
+.decision p { color: var(--muted); font-size: 15px; }
+.decision .tag { font-family: var(--mono); font-size: 11.5px; color: var(--accent); }
+.demo { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-top: 18px; }
+.demo div { border-left: 2px solid var(--line); padding-left: 14px; font-size: 14px; color: var(--muted); }
+.demo strong { display: block; color: var(--fg); font-weight: 500; }
+
+.principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.principles div { display: grid; gap: 8px; border-top: 2px solid var(--fg); padding-top: 16px; align-content: start; }
+.principles h3 { font-size: 20px; font-weight: 600; }
+.principles p { color: var(--muted); font-size: 15px; }
+
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; }
+.timeline li { display: grid; grid-template-columns: 120px minmax(0, 1fr) minmax(0, 1.2fr); gap: 24px; padding: 20px 0; border-top: 1px solid var(--line); align-items: baseline; }
+.timeline li:last-child { border-bottom: 1px solid var(--line); }
+.timeline .when { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+.timeline h3 { font-size: 18px; font-weight: 600; font-family: var(--body); }
+.timeline .org { color: var(--muted); font-size: 14px; }
+.timeline p { font-size: 15px; color: var(--muted); }
+
+.skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 28px 32px; }
+.skills h3 { font-size: 13px; font-family: var(--mono); font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 10px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags span { font-size: 13.5px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+
+.creds { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 40px; }
+.creds div { display: grid; gap: 2px; }
+.creds b { font-weight: 500; }
+.creds span { color: var(--muted); font-size: 14px; }
+
+.contact { background: var(--fg); color: var(--bg); border-radius: 16px; padding: 40px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; }
+.contact h2 { color: var(--bg); }
+.contact p { opacity: .75; margin-top: 10px; max-width: 32em; }
+.contact .addr { font-family: var(--mono); font-size: 15px; display: grid; gap: 6px; justify-items: start; }
+.contact .addr span { user-select: all; }
+.contact a { color: var(--bg); }
+
+.edu { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 56px; align-items: start; }
+.edu-col { display: grid; gap: 0; min-width: 0; }
+.edu-h { font-family: var(--mono); font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 0 0 12px; }
+.degree { display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 20px; padding: 18px 0; border-top: 2px solid var(--fg); align-items: baseline; }
+.degree + .degree { border-top-width: 1px; border-top-color: var(--line); }
+.degree .yr { font-size: 13px; color: var(--accent); font-weight: 500; }
+.degree h4 { margin: 0; font-family: var(--display); font-size: 22px; font-weight: 600; line-height: 1.2; text-wrap: balance; }
+.degree p { color: var(--muted); font-size: 15px; margin-top: 4px; }
+.cert-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.cert-list li { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px; align-items: center; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.cert-mark { width: 48px; height: 48px; border-radius: 10px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .04em; }
+.cert-list b { display: block; font-weight: 600; font-size: 15px; line-height: 1.3; }
+.cert-list span { color: var(--muted); font-size: 13.5px; }
+.cert-list span a { font-weight: 500; }
+@media (max-width: 860px) { .edu { grid-template-columns: minmax(0, 1fr); gap: 36px; } }
+@media (max-width: 480px) { .degree { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-block: 1px solid var(--line); margin-top: -40px; }
+.stats div { padding: 26px 22px 24px; display: grid; gap: 6px; align-content: start; border-left: 1px solid var(--line); }
+.stats div:first-child { border-left: 0; padding-left: 0; }
+.stats strong { font-family: var(--display); font-size: clamp(34px, 4vw, 48px); font-weight: 800; letter-spacing: -.03em; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; }
+.stats span { color: var(--muted); font-size: 14.5px; line-height: 1.45; max-width: 22ch; }
+@media (max-width: 860px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 0; } .stats div:nth-child(3) { border-left: 0; padding-left: 0; } .stats div:nth-child(n+3) { border-top: 1px solid var(--line); } }
+@media (max-width: 420px) { .stats { grid-template-columns: minmax(0, 1fr); } .stats div { border-left: 0; padding-left: 0; } .stats div + div { border-top: 1px solid var(--line); } }
+.kurz { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+.kurz p { font-size: 17px; line-height: 1.65; max-width: 60ch; }
+.kurz p + p { margin-top: 14px; color: var(--muted); font-size: 15.5px; }
+@media (max-width: 860px) { .kurz { grid-template-columns: minmax(0, 1fr); gap: 24px; } }
+.switch { display: inline-flex; align-items: center; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 99px; background: var(--surface); }
+.switch a { padding: 6px 14px; border-radius: 99px; font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; white-space: nowrap; }
+.switch a:hover { color: var(--fg); }
+.switch a[aria-current="page"] { background: var(--fg); color: var(--bg); }
+.thesis-line { font-size: 14px !important; margin-top: 6px !important; }
+.contact .avail { opacity: 1; font-weight: 500; margin-top: 14px; font-size: 14.5px; }
+@media (max-width: 600px) { nav.top ul { display: none; } nav.top { justify-content: space-between; } }
+.repos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.repo { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; display: grid; grid-template-rows: auto auto 1fr auto auto; gap: 10px; min-width: 0; transition: border-color .2s, transform .2s; }
+.repo:hover { border-color: var(--accent); transform: translateY(-2px); }
+.repo-path { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.repo-path svg { width: 14px; height: 14px; fill: currentColor; flex: none; }
+.repo h3 { font-size: 20px; font-weight: 600; line-height: 1.2; }
+.repo p { color: var(--muted); font-size: 14.5px; line-height: 1.55; }
+.repo-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.repo-tags span { font-size: 12px; padding: 2px 8px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+.repo-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding-top: 10px; border-top: 1px solid var(--line); font-size: 13.5px; }
+.repo-foot .lang { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); }
+.repo-foot .lang i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.repo-foot a { font-weight: 500; text-decoration: none; }
+.repo-foot a:hover { text-decoration: underline; }
+.more-h { font-family: var(--mono); font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 40px 0 6px; }
+.repo-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
+.repo-list a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 14px; padding: 12px 0; border-bottom: 1px solid var(--line); text-decoration: none; color: var(--fg); }
+.repo-list a:hover b { color: var(--accent); }
+.repo-list b { font-weight: 600; font-size: 15px; }
+.repo-list span { grid-column: 1; color: var(--muted); font-size: 13.5px; }
+.repo-list em { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-style: normal; font-size: 11.5px; color: var(--muted); white-space: nowrap; }
+@media (max-width: 960px) { .repos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .repos, .repo-list { grid-template-columns: minmax(0, 1fr); } .repo-list em { display: none; } }
+.studies { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 16px; }
+.sw-7 { background: repeating-linear-gradient(#1a1104 0 2px, #120c02 2px 4px); box-shadow: inset 0 0 0 5px #2f2a20, inset 0 0 26px rgba(255,176,0,.35); color: #ffb000; font-family: "Courier New", monospace !important; text-shadow: 0 0 6px rgba(255,176,0,.6); }
+.sw-9 { background-color: #0b2545; background-image: linear-gradient(rgba(140,190,255,.25) 1px, transparent 1px), linear-gradient(90deg, rgba(140,190,255,.25) 1px, transparent 1px); background-size: 12px 12px; border: 1px solid #5fb4ff; color: #fff; }
+.sw-10 { background: radial-gradient(circle at 20% 30%, #ffc2e6 0, transparent 45%), radial-gradient(circle at 80% 30%, #c5b8ff 0, transparent 45%), radial-gradient(circle at 60% 90%, #b2eeff 0, transparent 50%), #f7f6ff; border-radius: 18px; color: #5b21b6; }
+.sw-8 { background: radial-gradient(circle at 80% 72%, #6750a4 0 16%, transparent 17%), linear-gradient(#eaddff 0 42%, #f7f2fa 42%); border-radius: 22px; color: #21005d; }
+.studies a { display: grid; gap: 10px; text-decoration: none; color: var(--fg); }
+.studies .sw { aspect-ratio: 4 / 3; max-width: 100%; border-radius: 12px; transition: transform .25s ease; display: grid; place-items: end start; padding: 12px; font-family: var(--display); font-weight: 800; font-size: 28px; line-height: 1; }
+.studies a:hover .sw { transform: translateY(-4px); }
+.studies .s { font-family: var(--mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+.studies b { font-weight: 600; font-size: 15px; }
+.sw-1 { background: radial-gradient(circle at 20% 30%, #7b6cff, transparent 55%), radial-gradient(circle at 85% 75%, #11c5b8, transparent 55%), radial-gradient(circle at 85% 15%, #ff6fae, transparent 40%), #241c55; color: #fff; }
+.sw-2 { background: #b9a6ff; border: 2px solid #111; box-shadow: 5px 5px 0 #111; color: #111; }
+.sw-3 { background: #e4e9f0; box-shadow: inset 6px 6px 12px #c3cad5, inset -6px -6px 12px #ffffff; color: #2b3443; }
+.sw-4 { background: linear-gradient(90deg, #14171d 0 62%, #ff8a3d 62% 66%, #14171d 66%); border: 1px solid #23272f; color: #fff; }
+.sw-5 { background: radial-gradient(circle at 70% 40%, #ffb4d0 0 14%, transparent 15%), radial-gradient(circle at 85% 70%, #ffd36e 0 11%, transparent 12%), #c9dcff; box-shadow: inset -6px -6px 14px rgba(60,50,140,.18), inset 6px 6px 14px rgba(255,255,255,.7); border-radius: 22px; color: #2a2550; }
+.sw-6 { background: linear-gradient(90deg, #fff 0 70%, #e3000f 70% 74%, #fff 74%); border: 1px solid #0a0a0a; border-radius: 0; color: #0a0a0a; }
+.more { margin-top: 22px; }
+@media (max-width: 860px) { .studies { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+footer { color: var(--muted); font-size: 13px; }
+
+@media (max-width: 860px) {
+  .hero, .case { grid-template-columns: minmax(0, 1fr); }
+  .hero { margin-top: 0; }
+  .mini { transform: none; }
+  .principles { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .timeline li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .contact { grid-template-columns: minmax(0, 1fr); padding: 28px; }
+  .wrap { gap: 64px; padding-inline: 16px; }
+}
+@media (max-width: 480px) { nav.top ul { gap: 14px; } .mini-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (prefers-reduced-motion: no-preference) { .mini { transition: transform .4s ease; } .mini:hover { transform: rotate(0); } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav class="top" aria-label="Sections">
+    <span class="who">Manicharan Ravi</span>
+    <ul><li><a href="#work">Work</a></li><li><a href="#projects">Projects</a></li><li><a href="#experience">Experience</a></li><li><a href="#education">Education</a></li><li><a href="#skills">Skills</a></li><li><a href="#contact">Contact</a></li></ul>
+    <div class="switch" role="group" aria-label="Profile version"><a href="index.html" aria-current="page">IT Specialist</a><a href="software-engineer.html">Software &amp; Cloud Engineer</a></div>
+  </nav>
+
+  <div class="hero">
+    <figure class="portrait">
+      <img src="manicharan.webp" alt="Portrait of Manicharan Ravi" width="2000" height="1600">
+      <figcaption><span class="badge"><i class="dot"></i>Available immediately</span><span class="badge mono">Mainz, Germany</span></figcaption>
+    </figure>
+    <div class="hero-text">
+      <div class="eyebrow">IT Specialist · System Administration · Microsoft 365 &amp; Cloud</div>
+      <h1>Manicharan Ravi</h1>
+      <p class="thesis">I keep systems running, users productive and infrastructure <em>documented.</em></p>
+      <p class="lede">6+ years in IT operations and infrastructure: Windows and Linux servers, Microsoft 365 and Entra ID, VMware and Hyper-V, networking, backup and AWS and Azure. I support users at first and second level, find the root cause in logs and configs, and automate the routine work with PowerShell and Python.</p>
+      <div class="who-line"><span class="mono">English C2 · German: preparing for B1, goal C1</span><span class="mono">Führerschein Klasse B</span><span class="mono">M.Sc. Computer Science</span></div>
+      <div class="ctas">
+        <a class="cta" href="ops-dashboard.html">Open the live dashboard
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+        <a class="cta ghost" href="#projects">See my IT projects</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="stats" aria-label="Results">
+    <div><strong>6+</strong><span>years in IT operations, cloud and infrastructure</span></div>
+    <div><strong>50+</strong><span>users supported at first and second level</span></div>
+    <div><strong>50–100</strong><span>support tickets resolved per month in Jira Service Management</span></div>
+    <div><strong>20 %</strong><span>lower AWS and Azure costs through resource optimisation</span></div>
+  </section>
+
+  <section id="work">
+    <div class="work-intro">
+    <header>
+      <div class="eyebrow">Featured project</div>
+      <h2>Ops Dashboard: one screen for three sites</h2>
+      <p>An operations console for a fictional Mittelstand company running Windows, Hyper-V, vSphere and a small Kubernetes cluster across Aachen, Köln and Düsseldorf. It replaces four tabs (Grafana, the backup console, WSUS and a certificate spreadsheet) with one page. The data is sample data so the design can be shared publicly.</p>
+    </header>
+    <div class="mini" aria-label="Preview of the ops dashboard" role="img">
+      <div class="mini-head"><b>Ops Dashboard</b><span class="mono" style="color:var(--muted)">3 sites · 14 hosts</span></div>
+      <div class="mini-kpis">
+        <div><span>Healthy</span><strong>9/14</strong><div class="track"><i style="flex:9;background:var(--ok)"></i><i style="flex:4;background:var(--warn)"></i><i style="flex:1;background:var(--crit)"></i></div></div>
+        <div><span>Backups</span><strong>95.6%</strong><div class="track"><i style="flex:96;background:var(--warn)"></i><i style="flex:4"></i></div></div>
+        <div><span>Patched</span><strong>86%</strong><div class="track"><i style="flex:86;background:var(--warn)"></i><i style="flex:14"></i></div></div>
+        <div><span>Alerts</span><strong>8</strong><div class="track"><i style="flex:2;background:var(--crit)"></i><i style="flex:5;background:var(--warn)"></i><i style="flex:1;background:var(--accent)"></i></div></div>
+      </div>
+      <div class="mini-rows">
+        <div class="mini-row"><span>AAC-FS01</span><span class="chip crit">Critical</span><svg viewBox="0 0 100 18" preserveAspectRatio="none"><path class="sl" d="M0 13L10 12L20 14L30 11L40 12L50 10L60 12L70 11L80 13L90 12L100 12"/></svg><span>22%</span></div>
+        <div class="mini-row"><span>CGN-K8S-N2</span><span class="chip warn">Warning</span><svg viewBox="0 0 100 18" preserveAspectRatio="none"><path class="sl hot" d="M0 9L10 7L20 6L30 4L40 5L50 3L60 3L70 2L80 3L90 2L100 2"/></svg><span>87%</span></div>
+        <div class="mini-row"><span>AAC-TS01</span><span class="chip warn">Warning</span><svg viewBox="0 0 100 18" preserveAspectRatio="none"><path class="sl" d="M0 12L10 11L20 8L30 7L40 9L50 8L60 6L70 8L80 9L90 8L100 8"/></svg><span>52%</span></div>
+        <div class="mini-row"><span>AAC-DC01</span><span class="chip ok">Healthy</span><svg viewBox="0 0 100 18" preserveAspectRatio="none"><path class="sl" d="M0 15L10 15L20 14L30 15L40 14L50 15L60 14L70 15L80 15L90 14L100 15"/></svg><span>14%</span></div>
+      </div>
+      <div class="mini-heat" aria-hidden="true"><i></i><i></i><i></i><i class="w"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="f"></i><i class="f"></i></div>
+    </div>
+    </div>
+    <div class="case">
+      <div class="decision"><span class="tag">Triage first</span><h3>Problems sort to the top</h3><p>The fleet table orders hosts critical, then warning, then healthy. The first row you read is the first thing you fix. Alphabetical order only applies within each group.</p></div>
+      <div class="decision"><span class="tag">Color has one job</span><h3>Status color is never decoration</h3><p>Green, amber and red mean healthy, warning and critical everywhere on the page. The blue accent is only for interaction and neutral data, so a red pixel always means something.</p></div>
+      <div class="decision"><span class="tag">Shape over numbers</span><h3>Backups as a 14-night heatmap</h3><p>A success percentage hides patterns. The grid shows at a glance that AAC-FS01 failed two nights in a row, which points to a VSS problem and not a one-off network blip.</p></div>
+      <div class="decision"><span class="tag">Thresholds on the chart</span><h3>The 80 % line is drawn, not implied</h3><p>Storage bars and CPU charts carry the alert threshold as a mark. You can see how close a datastore is to paging someone without reading the alert rules.</p></div>
+    </div>
+    <div class="demo">
+      <div><strong>Try it</strong>Switch between sites and between 24 h and 7 d.</div>
+      <div><strong>Drill in</strong>Click any host for its CPU and memory history.</div>
+      <div><strong>Responsive</strong>Works on desktop, tablet and phone.</div>
+      <div><strong>Stack</strong>Plain HTML, CSS and JavaScript. No framework.</div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <header>
+      <div class="eyebrow">GitHub projects</div>
+      <h2>Automation, infrastructure and documentation</h2>
+      <p>Microsoft 365 automation, backup, networking and runbooks from my public GitHub. Each card links to the repository.</p>
+    </header>
+    <div class="repos">
+      <article class="repo">
+        <div class="repo-path mono"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.71 1.71.75.75 0 0 1-1.07 1.05A2.5 2.5 0 0 1 2 11.5zm10.5-1h-8a1 1 0 0 0-1 1v6.71A2.5 2.5 0 0 1 4.5 9h8z"/></svg>manicharan0485/Azure-m365-admin-scripts</div>
+        <h3>Azure &amp; M365 Admin Scripts</h3>
+        <p>PowerShell and Python automation for Microsoft 365: bulk user provisioning and MFA reports in Entra ID, Intune device compliance, licence audits, SharePoint permission fixes and Exchange Online mail flow.</p>
+        <div class="repo-tags"><span>PowerShell</span><span>Graph API</span><span>Entra ID</span><span>Intune</span><span>Exchange Online</span></div>
+        <div class="repo-foot"><span class="lang"><i style="background:#5391FE"></i>PowerShell</span><a href="https://github.com/manicharan0485/Azure-m365-admin-scripts">View on GitHub →</a></div>
+      </article>
+      <article class="repo">
+        <div class="repo-path mono"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.71 1.71.75.75 0 0 1-1.07 1.05A2.5 2.5 0 0 1 2 11.5zm10.5-1h-8a1 1 0 0 0-1 1v6.71A2.5 2.5 0 0 1 4.5 9h8z"/></svg>manicharan0485/backup-automation-scripts</div>
+        <h3>Backup Automation</h3>
+        <p>Scripts that check AWS RDS snapshots, run scheduled restore tests for PostgreSQL and SQL Server, raise CloudWatch alarms for unusual backups and email a daily status report.</p>
+        <div class="repo-tags"><span>Python</span><span>Bash</span><span>AWS Backup</span><span>CloudWatch</span><span>Terraform</span></div>
+        <div class="repo-foot"><span class="lang"><i style="background:#3572A5"></i>Python</span><a href="https://github.com/manicharan0485/backup-automation-scripts">View on GitHub →</a></div>
+      </article>
+      <article class="repo">
+        <div class="repo-path mono"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.71 1.71.75.75 0 0 1-1.07 1.05A2.5 2.5 0 0 1 2 11.5zm10.5-1h-8a1 1 0 0 0-1 1v6.71A2.5 2.5 0 0 1 4.5 9h8z"/></svg>manicharan0485/Network-Labs-CCNA</div>
+        <h3>Network Labs: CCNA 200-301</h3>
+        <p>Hands-on Cisco labs in Packet Tracer for VLANs and trunking, spanning tree, OSPF, ACLs and NAT, with Wireshark analysis of ARP and DHCP traffic and a Python subnet calculator.</p>
+        <div class="repo-tags"><span>Cisco IOS</span><span>VLAN</span><span>OSPF</span><span>Wireshark</span><span>Python</span></div>
+        <div class="repo-foot"><span class="lang"><i style="background:#1BA0D7"></i>Networking</span><a href="https://github.com/manicharan0485/Network-Labs-CCNA">View on GitHub →</a></div>
+      </article>
+      <article class="repo">
+        <div class="repo-path mono"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.71 1.71.75.75 0 0 1-1.07 1.05A2.5 2.5 0 0 1 2 11.5zm10.5-1h-8a1 1 0 0 0-1 1v6.71A2.5 2.5 0 0 1 4.5 9h8z"/></svg>manicharan0485/ITIL-Runbooks-Templates</div>
+        <h3>ITIL Runbooks &amp; Templates</h3>
+        <p>Operations documentation: a backup incident response runbook, a restore test checklist, an ITIL change request template and a post-incident report template.</p>
+        <div class="repo-tags"><span>ITIL</span><span>Incident management</span><span>Change management</span><span>Documentation</span></div>
+        <div class="repo-foot"><span class="lang"><i style="background:#6e7781"></i>Documentation</span><a href="https://github.com/manicharan0485/ITIL-Runbooks-Templates">View on GitHub →</a></div>
+      </article>
+      <article class="repo">
+        <div class="repo-path mono"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.71 1.71.75.75 0 0 1-1.07 1.05A2.5 2.5 0 0 1 2 11.5zm10.5-1h-8a1 1 0 0 0-1 1v6.71A2.5 2.5 0 0 1 4.5 9h8z"/></svg>manicharan0485/veeam-backup-config-guide</div>
+        <h3>Veeam Backup Configuration Guide</h3>
+        <p>Practical guides for Veeam Backup &amp; Replication v12: job types, GFS retention design, application-aware processing with VSS, restore types and offsite copies to S3 or Azure Blob.</p>
+        <div class="repo-tags"><span>Veeam v12</span><span>vSphere</span><span>Hyper-V</span><span>Windows Server</span></div>
+        <div class="repo-foot"><span class="lang"><i style="background:#00B336"></i>Backup</span><a href="https://github.com/manicharan0485/veeam-backup-config-guide">View on GitHub →</a></div>
+      </article>
+      <article class="repo">
+        <div class="repo-path mono"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.71 1.71.75.75 0 0 1-1.07 1.05A2.5 2.5 0 0 1 2 11.5zm10.5-1h-8a1 1 0 0 0-1 1v6.71A2.5 2.5 0 0 1 4.5 9h8z"/></svg>manicharan0485/cloud-infrastructure-aws-azure</div>
+        <h3>Cloud Infrastructure: AWS &amp; Azure</h3>
+        <p>Terraform for both clouds (VPC, EC2, S3, RDS and IAM on AWS; VMs, networking and a backup vault on Azure) with a Jenkins pipeline to deploy it.</p>
+        <div class="repo-tags"><span>Terraform</span><span>AWS</span><span>Azure</span><span>Jenkins</span></div>
+        <div class="repo-foot"><span class="lang"><i style="background:#7B42BC"></i>Terraform</span><a href="https://github.com/manicharan0485/cloud-infrastructure-aws-azure">View on GitHub →</a></div>
+      </article>
+    </div>
+    <h3 class="more-h">More on GitHub</h3>
+    <ul class="repo-list">
+      <li><a href="https://github.com/manicharan0485/ai-project-risk-prediction"><b>M.Sc. Thesis: AI Project Risk Prediction</b><span>ML models predicting supply chain risk, served via a Flask API</span><em class="mono">Python · scikit-learn</em></a></li>
+      <li><a href="https://github.com/manicharan0485/cloud-security-lab"><b>Cloud Security Lab</b><span>Hardened Terraform, Kubernetes and Docker reference stack</span><em class="mono">Terraform · EKS</em></a></li>
+      <li><a href="https://github.com/manicharan0485/cloud-security-hardening"><b>Cloud Security Hardening</b><span>CIS benchmark automation for AWS, Azure and GCP</span><em class="mono">Terraform · Python</em></a></li>
+      <li><a href="https://github.com/manicharan0485/k8s-secure-deployment"><b>K8s Secure Deployment</b><span>RBAC, network policies and image scanning in CI</span><em class="mono">Kubernetes · Helm</em></a></li>
+      <li><a href="https://github.com/manicharan0485/VAPT-Tool-kit"><b>VAPT Toolkit</b><span>Recon, scanning and reporting scripts for authorised testing</span><em class="mono">Python · Nmap</em></a></li>
+      <li><a href="https://github.com/manicharan0485/fullstack-task-manager"><b>Full Stack Task Manager</b><span>React and Express app with JWT login and MongoDB</span><em class="mono">React · Node.js</em></a></li>
+      <li><a href="https://github.com/manicharan0485/Event-Management-Project"><b>Event Management App</b><span>React and Express app for planning events</span><em class="mono">React · Node.js</em></a></li>
+    </ul>
+    <a class="cta ghost more" href="https://github.com/manicharan0485">All repositories on GitHub
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+  </section>
+
+  <section id="tools">
+    <header>
+      <div class="eyebrow">Tool concepts</div>
+      <h2>Interfaces for everyday IT operations</h2>
+      <p>Clickable concepts for the tools an administrator uses every day. All data is sample data.</p>
+    </header>
+    <div class="studies tools">
+      <a href="interface-studies.html#network"><span class="sw sw-9">09</span><span class="s">Network</span><b>Network monitor with VPN failover</b></a>
+      <a href="interface-studies.html#retro"><span class="sw sw-7">07</span><span class="s">Linux</span><b>Server console with real commands</b></a>
+      <a href="interface-studies.html#brutal"><span class="sw sw-2">02</span><span class="s">Service desk</span><b>IT helpdesk board</b></a>
+      <a href="interface-studies.html#material"><span class="sw sw-8">08</span><span class="s">Asset management</span><b>IT inventory</b></a>
+      <a href="interface-studies.html#clay"><span class="sw sw-5">05</span><span class="s">Onboarding</span><b>New-hire IT setup</b></a>
+      <a href="interface-studies.html#agents"><span class="sw sw-10">10</span><span class="s">Automation</span><b>AI agents for IT tasks</b></a>
+    </div>
+    <a class="cta more" href="interface-studies.html">Open all tool concepts
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+  </section>
+
+  <section>
+    <header><div class="eyebrow">Approach</div><h2>How I work</h2></header>
+    <div class="principles">
+      <div><h3>Restore first, then find why</h3><p>Get people working again quickly, then trace the root cause through logs, error messages, network settings and configs so the problem does not come back.</p></div>
+      <div><h3>Automate the repeat work</h3><p>If a task comes up every week, it becomes a PowerShell or Python script, from licence audits to user provisioning.</p></div>
+      <div><h3>Write it down</h3><p>Every fix ends in a ticket note or a runbook, so the next admin solves the same problem in minutes.</p></div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <header><div class="eyebrow">Work experience</div><h2>Supporting and running systems since 2018</h2></header>
+    <ol class="timeline" reversed>
+      <li><span class="when">04/2026 – present</span><div><h3>Professional development</h3><div class="org">Mainz · full-time upskilling</div></div><p>Completed <i>Networking Fundamentals &amp; Network Access</i> (Packt via Coursera) and <i>Claude Code in Action</i> (Anthropic). Preparing for the CCNA 200-301 exam and German B1 on the way to C1, and building the projects on this page.</p></li>
+      <li><span class="when">04/2025 – 03/2026</span><div><h3>IT Specialist &amp; Cloud Engineer</h3><div class="org">RP Solutions GmbH · Mainz</div></div><p>First- and second-level support for 50+ employees on Windows and macOS, handling 50–100 Jira Service Management tickets a month. Ran Microsoft 365, Outlook and Entra ID (accounts, permissions, sign-in and mail issues), installed and repaired laptops, desktops and printers, automated admin tasks with PowerShell and Python, and cut AWS and Azure costs by a measured 20 %.</p></li>
+      <li><span class="when">01/2022 – 12/2023</span><div><h3>Full Stack Developer &amp; macOS Administrator</h3><div class="org">CloudMellow · Frisco, TX · Remote night shift alongside M.Sc. studies</div></div><p>Supported macOS devices for an international remote team through Apple Business Manager, created VMware VMs for development and testing, and troubleshot application, performance and network issues for remote staff. Also built web apps in JavaScript, React, Node.js and PHP.</p></li>
+      <li><span class="when">01/2019 – 12/2021</span><div><h3>Full Stack Developer &amp; Linux Administrator</h3><div class="org">Indo-Euro Synchronisation · Aachen · Working student for the first 7 months, then full-time</div></div><p>Ran Linux servers and AWS services (EC2, S3, RDS), set up VMware and Hyper-V VMs, and troubleshot server, network and database issues from logs. Documented configurations and fixes for recurring problems, and developed web platforms with 10,000+ monthly active users.</p></li>
+      <li><span class="when">08/2018 – 12/2018</span><div><h3>Study Internship, Industry 4.0 &amp; Automation</h3><div class="org">RWTH Aachen University</div></div><p>Study internship during my B.Tech, working on Industry 4.0 and automation topics.</p></li>
+      <li><span class="when">02/2018 – 07/2018</span><div><h3>Cybersecurity Intern</h3><div class="org">Supraja Technologies · Vijayawada</div></div><p>Security testing, vulnerability assessments and documentation for security audits.</p></li>
+    </ol>
+  </section>
+
+  <section id="education">
+    <header><div class="eyebrow">Qualifications</div><h2>Education &amp; Certificates</h2></header>
+    <div class="edu">
+      <div class="edu-col">
+        <h3 class="edu-h">Degrees</h3>
+        <article class="degree"><span class="yr mono">2022 – 2024</span><div><h4>M.Sc. Computer Science</h4><p>IU International University of Applied Sciences, Germany</p><p class="thesis-line">Thesis: <a href="https://github.com/manicharan0485/ai-project-risk-prediction">Leveraging AI for Project Risk Prediction and Mitigation</a></p></div></article>
+        <article class="degree"><span class="yr mono">2016 – 2020</span><div><h4>B.Tech. Electronics &amp; Communication Engineering</h4><p>Jawaharlal Nehru Technological University Kakinada (JNTUK), India</p></div></article>
+      </div>
+      <div class="edu-col">
+        <h3 class="edu-h">Courses &amp; certificates</h3>
+        <ul class="cert-list">
+          <li><span class="cert-mark" aria-hidden="true">NET</span><div><b>Networking Fundamentals &amp; Network Access</b><span>Packt via Coursera · April 2026 · <a href="https://coursera.org/verify/MPMFZ8AMGFWN">Verify</a></span></div></li>
+          <li><span class="cert-mark" aria-hidden="true">AI</span><div><b>Claude Code in Action</b><span>Anthropic · March 2026 · <a href="https://verify.skilljar.com/c/zub2kv5zxinh">Verify</a></span></div></li>
+          <li><span class="cert-mark" aria-hidden="true">AI</span><div><b>Claude 101</b><span>Anthropic Claude Academy · 2026 · <a href="https://academy.claude.com/verify/97c6eed61e8f9510128565beff7e2533">Verify</a></span></div></li>
+          <li><span class="cert-mark" aria-hidden="true">SAP</span><div><b>SAP S/4HANA: From Zero to Expert (course, 7.5 h)</b><span>Udemy · January 2025 · <a href="https://ude.my/UC-3d57639a-b931-40c9-a514-153d6bfbee3f">Verify</a></span></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <header><div class="eyebrow">Skills</div><h2>Technical skills</h2></header>
+    <div class="skills">
+      <div><h3>Windows &amp; identity</h3><div class="tags"><span>Windows Server 2016–2022</span><span>Active Directory</span><span>Group Policy (GPO)</span><span>Microsoft Entra ID</span><span>Intune</span><span>Microsoft 365</span><span>Exchange Online</span></div></div>
+      <div><h3>Virtualisation &amp; backup</h3><div class="tags"><span>VMware vSphere / ESXi</span><span>Hyper-V</span><span>VM provisioning</span><span>Veeam Backup &amp; Replication</span><span>Snapshots</span><span>Restore testing</span></div></div>
+      <div><h3>Network &amp; security</h3><div class="tags"><span>LAN / WAN</span><span>VLAN</span><span>DNS</span><span>DHCP</span><span>Firewall</span><span>VPN</span><span>Cisco switches &amp; routers</span><span>Patch management</span><span>ISO 27001</span><span>GDPR (DSGVO)</span></div></div>
+      <div><h3>Cloud &amp; automation</h3><div class="tags"><span>AWS (EC2, S3, RDS)</span><span>Microsoft Azure</span><span>PowerShell</span><span>Python</span><span>Bash</span><span>Docker</span><span>Terraform</span><span>Prometheus / Grafana</span></div></div>
+      <div><h3>Service &amp; support</h3><div class="tags"><span>1st &amp; 2nd level support</span><span>Jira Service Management</span><span>ITIL</span><span>Windows &amp; macOS clients</span><span>Hardware setup &amp; repair</span><span>Technical documentation</span></div></div>
+    </div>
+  </section>
+
+  <section id="kurzprofil" lang="de">
+    <header><div class="eyebrow">Auf Deutsch</div><h2>Kurzprofil</h2></header>
+    <div class="kurz">
+      <div>
+        <p>IT-Spezialist mit über 6 Jahren Erfahrung in IT-Betrieb, Systemadministration und Cloud-Infrastruktur, ansässig in Mainz. Ich betreue Anwender im 1st- und 2nd-Level-Support, administriere Windows- und Linux-Server, Microsoft 365 und Entra ID und automatisiere wiederkehrende Aufgaben mit PowerShell und Python.</p>
+        <p>Zuletzt habe ich bei der RP Solutions GmbH über 50 Mitarbeitende unterstützt, monatlich 50–100 Tickets bearbeitet und die Cloud-Kosten nachweislich um 20 % gesenkt. Sofort verfügbar. M.Sc. in Informatik, Deutsch: Vorbereitung auf B1, Ziel C1, Führerschein Klasse B.</p>
+      </div>
+      <div class="tags"><span>1st/2nd-Level-Support</span><span>Systemadministration</span><span>Active Directory</span><span>Gruppenrichtlinien</span><span>Microsoft 365</span><span>Entra ID</span><span>Intune</span><span>Datensicherung</span><span>Virtualisierung</span><span>Netzwerkadministration</span><span>Patch-Management</span><span>IT-Dokumentation</span></div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div><h2>Let's keep your systems running</h2><p>I'm looking for an IT Specialist or system administrator role in Germany where I can support users, run the infrastructure and automate the routine work.</p><p class="avail">Available immediately · Arbeitszeugnisse (employer references) available on request</p></div>
+    <div class="addr"><span>manicharan.ravi999@gmail.com</span><a href="https://linkedin.com/in/manicharan-ravi">linkedin.com/in/manicharan-ravi</a><a href="https://github.com/manicharan0485">github.com/manicharan0485</a></div>
+  </section>
+
+  <footer>Designed and built by Manicharan Ravi in HTML and CSS. Dashboards and tools use fictional sample data. Applying for a software engineering role? See my <a href="software-engineer.html">software engineering profile</a>.</footer>
+</div>
+
+</body>
+</html>
