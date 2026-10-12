@@ -227,10 +227,12 @@ footer { color: var(--muted); font-size: 13px; }
 /* header, menu, logo, footer */
 .site-head { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-block: 12px; margin-block: -12px; background: rgb(255 255 255 / .94); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-bottom: 1px solid transparent; }
 .site-head.scrolled { border-bottom-color: var(--line); }
-.logo { display: inline-flex; align-items: baseline; font-family: var(--display); font-weight: 800; font-size: 26px; letter-spacing: -.03em; line-height: 1; color: var(--fg); text-decoration: none; }
-.logo-glyph { color: var(--accent); display: inline-block; min-width: .32em; }
-.logo-glyph.settle { animation: settle .45s ease; }
-@keyframes settle { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+.logo { display: inline-flex; align-items: center; font-family: var(--mono); font-weight: 500; font-size: 22px; letter-spacing: 0; line-height: 1; color: var(--fg); text-decoration: none; white-space: pre; min-width: 4.4ch; }
+.logo .lt { color: var(--fg); }
+.logo-glyph { color: var(--accent); }
+.logo .caret { display: inline-block; width: .55em; height: 1.05em; margin-left: 2px; background: var(--accent); border-radius: 1px; }
+@media (prefers-reduced-motion: no-preference) { .logo .caret { animation: caret 1s steps(1) infinite; } .logo.typing .caret { animation: none; } }
+@keyframes caret { 50% { opacity: 0; } }
 .menu { display: flex; align-items: center; gap: 22px; }
 .menu ul { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; font-size: 14px; }
 .menu ul a { color: var(--muted); text-decoration: none; font-weight: 500; }
@@ -255,7 +257,7 @@ footer { color: var(--muted); font-size: 13px; }
 .site-foot { border-top: 1px solid var(--line); padding-top: 40px; display: grid; gap: 32px; }
 .foot-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); gap: 32px; }
 .foot-brand { display: grid; gap: 10px; align-content: start; }
-.foot-brand .logo { font-size: 34px; }
+.foot-brand .logo { font-size: 30px; }
 .foot-brand p { color: var(--muted); font-size: 14.5px; max-width: 30ch; }
 .site-foot h4 { margin: 0 0 10px; font-family: var(--mono); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
 .site-foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 14.5px; }
@@ -513,11 +515,23 @@ footer { color: var(--muted); font-size: 13px; }
   document.addEventListener('click', e => { if (!head.contains(e.target)) setOpen(false); });
   const onScroll = () => head.classList.toggle('scrolled', window.scrollY > 8);
   window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
-  // logo: first "MR:", then it settles into "MR."
+  // logo: typed like code. "MR" then ":" -> "." -> "/" typed and deleted in a loop, with a blinking cursor
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const play = g => { if (reduce) { g.textContent = '.'; return; } g.classList.remove('settle'); g.textContent = ':';
-    setTimeout(() => { g.textContent = '.'; void g.offsetWidth; g.classList.add('settle'); }, 1100); };
-  document.querySelectorAll('.logo').forEach(l => { const g = l.querySelector('.logo-glyph'); play(g); l.addEventListener('mouseenter', () => play(g)); });
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  document.querySelectorAll('.logo').forEach(async logo => {
+    logo.innerHTML = '<span class="lt"></span><span class="logo-glyph"></span><span class="caret" aria-hidden="true"></span>';
+    const lt = logo.querySelector('.lt'), g = logo.querySelector('.logo-glyph');
+    if (reduce) { lt.textContent = 'MR'; g.textContent = '.'; return; }
+    logo.classList.add('typing');
+    for (const ch of 'MR') { await wait(160); lt.textContent += ch; }
+    logo.classList.remove('typing');
+    for (let i = 0; ; i = (i + 1) % 3) {
+      await wait(i === 0 ? 450 : 350);
+      logo.classList.add('typing'); g.textContent = ':./'[i]; logo.classList.remove('typing');
+      await wait(i === 1 ? 2600 : 1400);
+      logo.classList.add('typing'); g.textContent = ''; logo.classList.remove('typing');
+    }
+  });
 })();
 </script>
 
