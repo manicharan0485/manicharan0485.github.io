@@ -212,16 +212,60 @@ footer { color: var(--muted); font-size: 13px; }
 }
 @media (max-width: 480px) { nav.top ul { gap: 14px; } .mini-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (prefers-reduced-motion: no-preference) { .mini { transition: transform .4s ease; } .mini:hover { transform: rotate(0); } }
+
+/* header, menu, logo, footer */
+.site-head { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-block: 12px; margin-block: -12px; background: rgb(255 255 255 / .94); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-bottom: 1px solid transparent; }
+.site-head.scrolled { border-bottom-color: var(--line); }
+.logo { display: inline-flex; align-items: baseline; font-family: var(--display); font-weight: 800; font-size: 26px; letter-spacing: -.03em; line-height: 1; color: var(--fg); text-decoration: none; }
+.logo-glyph { color: var(--accent); display: inline-block; min-width: .32em; }
+.logo-glyph.settle { animation: settle .45s ease; }
+@keyframes settle { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+.menu { display: flex; align-items: center; gap: 22px; }
+.menu ul { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; font-size: 14px; }
+.menu ul a { color: var(--muted); text-decoration: none; font-weight: 500; }
+.menu ul a:hover { color: var(--fg); }
+.menu-btn { display: none; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--fg); place-items: center; padding: 0; cursor: pointer; }
+.menu-btn svg { width: 20px; height: 20px; }
+.menu-btn path { stroke: currentColor; stroke-width: 2; stroke-linecap: round; fill: none; transition: transform .2s, opacity .2s; transform-origin: center; }
+.menu-btn[aria-expanded="true"] .l1 { transform: translateY(5px) rotate(45deg); }
+.menu-btn[aria-expanded="true"] .l2 { opacity: 0; }
+.menu-btn[aria-expanded="true"] .l3 { transform: translateY(-5px) rotate(-45deg); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (max-width: 860px) {
+  .menu-btn { display: grid; }
+  .menu { display: none; position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; align-items: stretch; gap: 16px; padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 18px 40px -20px rgb(20 24 60 / .35); }
+  .menu.open { display: flex; }
+  .menu ul { flex-direction: column; gap: 0; font-size: 16px; }
+  .menu ul a { display: block; padding: 11px 4px; border-bottom: 1px solid var(--line); color: var(--fg); }
+  .menu ul li:last-child a { border-bottom: 0; }
+  .menu .switch { align-self: stretch; justify-content: stretch; }
+  .menu .switch a { flex: 1; text-align: center; }
+}
+.site-foot { border-top: 1px solid var(--line); padding-top: 40px; display: grid; gap: 32px; }
+.foot-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); gap: 32px; }
+.foot-brand { display: grid; gap: 10px; align-content: start; }
+.foot-brand .logo { font-size: 34px; }
+.foot-brand p { color: var(--muted); font-size: 14.5px; max-width: 30ch; }
+.site-foot h4 { margin: 0 0 10px; font-family: var(--mono); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.site-foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 14.5px; }
+.site-foot ul a { color: var(--fg); text-decoration: none; overflow-wrap: anywhere; }
+.site-foot ul a:hover { color: var(--accent); }
+.foot-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 24px; padding-block: 18px 8px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+@media (max-width: 860px) { .foot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .foot-brand { grid-column: 1 / -1; } }
+@media (max-width: 420px) { .foot-grid { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head>
 <body>
 
-<div class="wrap">
-  <nav class="top" aria-label="Sections">
-    <span class="who">Manicharan Ravi</span>
-    <ul><li><a href="#work">Work</a></li><li><a href="#projects">Projects</a></li><li><a href="#studies">Studies</a></li><li><a href="#experience">Experience</a></li><li><a href="#education">Education</a></li><li><a href="#contact">Contact</a></li></ul>
-    <div class="switch" role="group" aria-label="Profile version"><a href="index.html">IT Specialist</a><a href="software-engineer.html" aria-current="page">Software &amp; Cloud Engineer</a></div>
-  </nav>
+<div class="wrap" id="top">
+  <header class="site-head">
+    <a class="logo" href="#top" aria-label="Manicharan Ravi, back to top">MR<span class="logo-glyph" aria-hidden="true">.</span></a>
+    <nav id="site-menu" class="menu" aria-label="Sections">
+      <ul><li><a href="#work">Work</a></li><li><a href="#projects">Projects</a></li><li><a href="#studies">Studies</a></li><li><a href="#experience">Experience</a></li><li><a href="#education">Education</a></li><li><a href="#contact">Contact</a></li></ul>
+      <div class="switch" role="group" aria-label="Profile version"><a href="index.html">IT Specialist</a><a href="software-engineer.html" aria-current="page">Software &amp; Cloud Engineer</a></div>
+    </nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu"><span class="sr">Open menu</span><svg viewBox="0 0 20 20" aria-hidden="true"><path class="l1" d="M3 5h14"/><path class="l2" d="M3 10h14"/><path class="l3" d="M3 15h14"/></svg></button>
+  </header>
 
   <div class="hero">
     <figure class="portrait">
@@ -423,8 +467,34 @@ footer { color: var(--muted); font-size: 13px; }
     <div class="addr"><span>manicharan.ravi999@gmail.com</span><a href="https://linkedin.com/in/manicharan-ravi">linkedin.com/in/manicharan-ravi</a><a href="https://github.com/manicharan0485">github.com/manicharan0485</a></div>
   </section>
 
-  <footer>Designed and built by Manicharan Ravi in HTML and CSS. The dashboard uses fictional sample data. Applying for an IT specialist role? See my <a href="index.html">IT Specialist profile</a>.</footer>
+  <footer class="site-foot">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="logo" href="#top" aria-label="Back to top">MR<span class="logo-glyph" aria-hidden="true">.</span></a><p>Software &amp; Cloud Engineer in Mainz, Germany. Full stack development, AWS and Azure. Available immediately.</p></div>
+      <div><h4>Explore</h4><ul><li><a href="#work">Featured project</a></li><li><a href="#projects">Projects</a></li><li><a href="#studies">Interface Studies</a></li><li><a href="#experience">Experience</a></li><li><a href="#education">Education</a></li></ul></div>
+      <div><h4>Profiles</h4><ul><li><a href="index.html">IT Specialist</a></li><li><a href="software-engineer.html">Software &amp; Cloud Engineer</a></li><li><a href="ops-dashboard.html">Ops Dashboard demo</a></li><li><a href="interface-studies.html">Interface Studies</a></li></ul></div>
+      <div><h4>Contact</h4><ul><li><a href="mailto:manicharan.ravi999@gmail.com">manicharan.ravi999@gmail.com</a></li><li><a href="https://linkedin.com/in/manicharan-ravi">LinkedIn</a></li><li><a href="https://github.com/manicharan0485">GitHub</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Mani Ravi (Manicharan Ravi). All rights reserved.</span><span>Built with HTML, CSS and JavaScript. Dashboards and tools use fictional sample data.</span></div>
+  </footer>
 </div>
+
+<script>
+(() => {
+  const head = document.querySelector('.site-head'), btn = head.querySelector('.menu-btn'), menu = document.getElementById('site-menu');
+  const setOpen = open => { menu.classList.toggle('open', open); btn.setAttribute('aria-expanded', open); btn.querySelector('.sr').textContent = open ? 'Close menu' : 'Open menu'; };
+  btn.addEventListener('click', () => setOpen(!menu.classList.contains('open')));
+  menu.addEventListener('click', e => { if (e.target.closest('a')) setOpen(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('open')) { setOpen(false); btn.focus(); } });
+  document.addEventListener('click', e => { if (!head.contains(e.target)) setOpen(false); });
+  const onScroll = () => head.classList.toggle('scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  // logo: first "MR:", then it settles into "MR."
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const play = g => { if (reduce) { g.textContent = '.'; return; } g.classList.remove('settle'); g.textContent = ':';
+    setTimeout(() => { g.textContent = '.'; void g.offsetWidth; g.classList.add('settle'); }, 1100); };
+  document.querySelectorAll('.logo').forEach(l => { const g = l.querySelector('.logo-glyph'); play(g); l.addEventListener('mouseenter', () => play(g)); });
+})();
+</script>
 
 </body>
 </html>
